@@ -1,0 +1,29 @@
+.link {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.primary {
+  color: #6366F1;
+}
+
+.primary:hover {
+  color: #8B5CF6;
+}
+
+.secondary {
+  color: #94A3B8;
+}
+
+.secondary:hover {
+  color: #F8FAFC;
+}
