@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password    String
+  name        String
+  role        Role          @default(USER)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  expeditions Expedition[]
+  repairs     Repair[]
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  USER
+  REPAIR
+}
+
+model Company {
+  id           String      @id @default(cuid())
+  name         String
+  logo         String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  expeditions Expedition[]
+  baremos     Barem[]
+
+  @@map("companies")
+}
+
+model Expedition {
+  id            String            @id @default(cuid())
+  code          String            @unique
+  companyId     String
+  company      Company           @relation(fields: [companyId], references: [id])
+  date          DateTime
+  location      String
+  description   String?
+  clientName    String?
+  clientPhone   String?
+  status        ExpeditionStatus @default(OPEN)
+  pdfPath       String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  userId        String
+  user         User              @relation(fields: [userId], references: [id])
+  photos       Photo[]
+  budgets      Budget[]
+  repairs      Repair[]
+
+  @@map("expeditions")
+}
+
+enum ExpeditionStatus {
+  OPEN
+  IN_PROGRESS
+  PENDING_BUDGET
+  COMPLETED
+  CANCELLED
+}
+
+model Photo {
+  id           String     @id @default(cuid())
+  expeditionId String
+  expedition   Expedition @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+  path         String
+  caption      String?
+  createdAt    DateTime   @default(now())
+
+  @@map("photos")
+}
+
+model Budget {
+  id           String     @id @default(cuid())
+  expeditionId String
+  expedition   Expedition @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+  path         String
+  amount       Float?
+  description  String?
+  status       String     @default("PENDING")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("budgets")
+}
+
+model Repair {
+  id           String     @id @default(cuid())
+  expeditionId String
+  expedition   Expedition @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  name         String
+  phone        String?
+  specialty    String?
+  status       String     @default("PENDING")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("repairs")
+}
+
+model Barem {
+  id             String   @id @default(cuid())
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id])
+  name           String
+  sector         String
+  description    String?
+  amount         Float?
+  unit           String?
+  filePath       String?
+  extractedText  String?
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("baremos")
+}
