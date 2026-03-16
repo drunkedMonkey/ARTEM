@@ -1,4 +1,4 @@
-import { LoginRequest, LoginResponse, ForgotPasswordRequest, ForgotPasswordResponse } from '../types/auth';
+import type { LoginRequest, LoginResponse, ForgotPasswordRequest, ForgotPasswordResponse } from '../../types/auth';
 
 const DEMO_USER = {
   id: '1',
@@ -27,7 +27,7 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   throw new Error('Email o contraseña incorrectos');
 };
 
-export const forgotPassword = async (data: ForgotPasswordRequest): Promise<ForgotPasswordResponse> => {
+export const forgotPassword = async (_data: ForgotPasswordRequest): Promise<ForgotPasswordResponse> => {
   await delay(1000);
   return {
     success: true,

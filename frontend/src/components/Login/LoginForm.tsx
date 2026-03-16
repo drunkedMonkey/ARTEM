@@ -26,6 +26,8 @@ export const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -75,7 +77,7 @@ export const LoginForm: React.FC = () => {
             placeholder="tu@email.com"
             error={errors.email?.message}
             {...register('email')}
-            autocomplete="email"
+            autoComplete="email"
             required
           />
 
@@ -86,7 +88,7 @@ export const LoginForm: React.FC = () => {
             placeholder="••••••••"
             error={errors.password?.message}
             {...register('password')}
-            autocomplete="current-password"
+            autoComplete="current-password"
             required
           />
 
@@ -94,8 +96,8 @@ export const LoginForm: React.FC = () => {
             <Checkbox
               id="rememberMe"
               label="Remember me"
-              checked={false}
-              onChange={() => {}}
+              checked={watch('rememberMe') || false}
+              onChange={(checked) => setValue('rememberMe', checked)}
             />
             <Link
               to="#"

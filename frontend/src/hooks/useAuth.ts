@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LoginRequest, LoginResponse } from '../types/auth';
+import type { LoginRequest, LoginResponse } from '../types/auth';
 import { login as loginApi } from '../api/mock/auth';
 
 export const useAuth = () => {

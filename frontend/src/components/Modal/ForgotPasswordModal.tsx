@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from '../Login/Input';
 import { Button } from '../Login/Button';
-import { forgotPassword } from '../api/mock/auth';
+import { forgotPassword } from '../../api/mock/auth';
 import styles from './ForgotPasswordModal.module.css';
 
 interface ForgotPasswordModalProps {
@@ -59,7 +59,7 @@ export const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autocomplete="email"
+            autoComplete="email"
           />
 
           {error && <p className={styles.error}>{error}</p>}
